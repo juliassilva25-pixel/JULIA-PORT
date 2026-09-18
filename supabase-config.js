@@ -1,18 +1,12 @@
 // ============================================================
 //  CONFIGURAÇÃO DO SUPABASE
 // ============================================================
-//  Preencha os dois valores abaixo com os dados do seu projeto.
-//  Siga o passo a passo do arquivo "configurar-supabase.txt".
+//  Este arquivo JÁ ESTÁ configurado. Não precisa mexer.
 //
-//  1) SUPABASE_URL:  somente o endereço do projeto, por exemplo
-//     "https://uqlxneixpfsohzlyfmir.supabase.co"
-//
-//     ATENÇÃO: NÃO coloque "/rest/v1" no final. Use só o endereço
-//     base que aparece na tela "Settings > API > Project URL".
-//
-//  2) SUPABASE_ANON_KEY: a chave pública "anon" que aparece ao
-//     lado do Project URL ("Settings > API > anon public").
+//  SUPABASE_URL   : endereço base do projeto (sem "/rest/v1")
+//  SUPABASE_ANON_KEY: chave pública "anon/publishable" (é feita
+//                     para ficar no site, não é segredo)
 // ============================================================
 
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
+const SUPABASE_URL = "https://uqlxneixpfsohzlyfmir.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_aZOvZWxQW-aM8g5J6XlBJQ_dvBvgAVm";
