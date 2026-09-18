@@ -7,6 +7,22 @@ function supabaseConfigurado() {
     return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 }
 
+function supabaseBase() {
+
+    return String(SUPABASE_URL).replace(/\/+$/, "");
+}
+
+function limparNomeArquivo(nome) {
+
+    return String(nome)
+
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+
+        .replace(/[^a-zA-Z0-9._-]/g, "-")
+        .replace(/-+/g, "-");
+}
+
 function supabaseHeaders() {
 
     return {
@@ -23,7 +39,7 @@ async function listarAtividades() {
         return [];
     }
 
-    const url = SUPABASE_URL +
+    const url = supabaseBase() +
         "/rest/v1/atividades?select=*&order=data.asc,id.asc";
 
     const resposta = await fetch(url, {
@@ -45,12 +61,12 @@ async function enviarImagemAtividade(arquivo) {
         throw new Error("Supabase não configurado.");
     }
 
-    const nome = Date.now() + "-" + arquivo.name;
+    const nome = Date.now() + "-" + limparNomeArquivo(arquivo.name);
 
-    const url = SUPABASE_URL +
+    const url = supabaseBase() +
         "/storage/v1/object/" +
         SUPABASE_BUCKET + "/" +
-        encodeURIComponent(nome);
+        nome;
 
     const resposta = await fetch(url, {
 
@@ -72,10 +88,18 @@ async function enviarImagemAtividade(arquivo) {
 
         try { detalhe = await resposta.text(); } catch (e) { }
 
-        throw new Error("Erro ao enviar a imagem (" + resposta.status + "): " + detalhe);
+        const dica = detalhe.indexOf("PGRST125") >= 0
+            ? " Verifique se o bucket '" + SUPABASE_BUCKET +
+              "' existe (Storage) e se a Parte 2 do supabase.sql foi executada."
+            : "";
+
+        throw new Error(
+            "Erro ao enviar a imagem (" + resposta.status + "): " +
+            detalhe + " | URL: " + url + dica
+        );
     }
 
-    return SUPABASE_URL +
+    return supabaseBase() +
         "/storage/v1/object/public/" +
         SUPABASE_BUCKET + "/" +
         nome;
@@ -88,7 +112,7 @@ async function inserirAtividade(dados) {
         throw new Error("Supabase não configurado.");
     }
 
-    const url = SUPABASE_URL + "/rest/v1/atividades";
+    const url = supabaseBase() + "/rest/v1/atividades";
 
     const resposta = await fetch(url, {
 
