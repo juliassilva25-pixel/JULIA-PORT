@@ -7,7 +7,9 @@ function supabaseConfigurado() {
 
 function supabaseBase() {
 
-    return String(SUPABASE_URL).replace(/\/+$/, "");
+    return String(SUPABASE_URL)
+        .replace(/\/rest\/v1\/?$/, "")
+        .replace(/\/+$/, "");
 }
 
 function supabaseHeaders() {

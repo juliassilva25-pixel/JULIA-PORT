@@ -28,14 +28,15 @@ NÃO é preciso criar bucket no Storage. Siga os passos abaixo UMA vez.
 3) COLOCAR AS CHAVES NO SITE
 ----------------------------
 1. No painel: menu lateral  Settings  >  API  (ou "Project Settings > API").
-2. Copie o "Project URL"  (ex.: https://abcdefgh.supabase.co).
+2. Copie o "Project URL"  (ex.: https://uqlxneixpfsohzlyfmir.supabase.co).
+   IMPORTANTE: é só o endereço, SEM "/rest/v1" no final.
 3. Copie a chave pública "anon public" (a segunda chave da lista).
 4. Abra o arquivo  supabase-config.js  no projeto e preencha:
 
-   const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
+   const SUPABASE_URL = "https://uqlxneixpfsohzlyfmir.supabase.co";
    const SUPABASE_ANON_KEY = "sua-chave-anon-aqui";
 
-   (sem deixar espaços extras)
+   (sem "/rest/v1" e sem espaços extras)
 
 
 4) PUBLICAR NO GITHUB PAGES
