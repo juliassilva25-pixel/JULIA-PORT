@@ -1,7 +1,5 @@
 console.log("SUPABASE.JS FOI CARREGADO!");
 
-const SUPABASE_BUCKET = "atividades-imagens";
-
 function supabaseConfigurado() {
 
     return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
@@ -12,23 +10,71 @@ function supabaseBase() {
     return String(SUPABASE_URL).replace(/\/+$/, "");
 }
 
-function limparNomeArquivo(nome) {
-
-    return String(nome)
-
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-
-        .replace(/[^a-zA-Z0-9._-]/g, "-")
-        .replace(/-+/g, "-");
-}
-
 function supabaseHeaders() {
 
     return {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": "Bearer " + SUPABASE_ANON_KEY
     };
+}
+
+function arquivoParaDataURL(arquivo) {
+
+    return new Promise(function (resolve, reject) {
+
+        const leitor = new FileReader();
+
+        leitor.onload = function (e) {
+            resolve(e.target.result);
+        };
+
+        leitor.onerror = reject;
+
+        leitor.readAsDataURL(arquivo);
+    });
+}
+
+function comprimirImagem(arquivo) {
+
+    return new Promise(function (resolve, reject) {
+
+        const url = URL.createObjectURL(arquivo);
+        const img = new Image();
+
+        img.onload = function () {
+
+            const max = 1600;
+
+            let largura = img.width;
+            let altura = img.height;
+
+            if (largura > max) {
+
+                altura = Math.round(altura * max / largura);
+                largura = max;
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = largura;
+            canvas.height = altura;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, largura, altura);
+
+            URL.revokeObjectURL(url);
+
+            resolve(canvas.toDataURL("image/jpeg", 0.85));
+        };
+
+        img.onerror = function () {
+
+            URL.revokeObjectURL(url);
+
+            arquivoParaDataURL(arquivo).then(resolve).catch(reject);
+        };
+
+        img.src = url;
+    });
 }
 
 async function listarAtividades() {
@@ -52,57 +98,6 @@ async function listarAtividades() {
     }
 
     return await resposta.json();
-}
-
-async function enviarImagemAtividade(arquivo) {
-
-    if (!supabaseConfigurado()) {
-
-        throw new Error("Supabase não configurado.");
-    }
-
-    const nome = Date.now() + "-" + limparNomeArquivo(arquivo.name);
-
-    const url = supabaseBase() +
-        "/storage/v1/object/" +
-        SUPABASE_BUCKET + "/" +
-        nome;
-
-    const resposta = await fetch(url, {
-
-        method: "POST",
-
-        headers: {
-            "apikey": SUPABASE_ANON_KEY,
-            "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-            "Content-Type": arquivo.type || "application/octet-stream",
-            "x-upsert": "true"
-        },
-
-        body: arquivo
-    });
-
-    if (!resposta.ok) {
-
-        let detalhe = "";
-
-        try { detalhe = await resposta.text(); } catch (e) { }
-
-        const dica = detalhe.indexOf("PGRST125") >= 0
-            ? " Verifique se o bucket '" + SUPABASE_BUCKET +
-              "' existe (Storage) e se a Parte 2 do supabase.sql foi executada."
-            : "";
-
-        throw new Error(
-            "Erro ao enviar a imagem (" + resposta.status + "): " +
-            detalhe + " | URL: " + url + dica
-        );
-    }
-
-    return supabaseBase() +
-        "/storage/v1/object/public/" +
-        SUPABASE_BUCKET + "/" +
-        nome;
 }
 
 async function inserirAtividade(dados) {
@@ -137,9 +132,9 @@ async function inserirAtividade(dados) {
 
 async function cadastrarAtividadeComImagem(dados, arquivo) {
 
-    const urlImagem = await enviarImagemAtividade(arquivo);
+    const dataURL = await comprimirImagem(arquivo);
 
-    dados.imagem = urlImagem;
+    dados.imagem = dataURL;
 
     await inserirAtividade(dados);
 }

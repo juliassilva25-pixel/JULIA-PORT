@@ -3,8 +3,8 @@ COMO FAZER O CADASTRO DE ATIVIDADES FUNCIONAR NO GITHUB PAGES
 
 O GitHub Pages só serve arquivos estáticos, então ele NÃO roda o Node.js
 nem o MySQL. Por isso o site agora usa o SUPABASE (gratuito) como banco
-de dados e para guardar as imagens. Siga os passos abaixo UMA vez e tudo
-funcionará direto pelo link do GitHub.
+de dados. As imagens são guardadas direto na tabela (em base64), então
+NÃO é preciso criar bucket no Storage. Siga os passos abaixo UMA vez.
 
 
 1) CRIAR A CONTA E O PROJETO
@@ -18,30 +18,14 @@ funcionará direto pelo link do GitHub.
 -----------------
 1. No painel do Supabase, abra o menu "SQL Editor".
 2. Clique em "New query".
-3. Copie TODA a primeira parte do arquivo "supabase.sql" (a parte da tabela
-   e das políticas) e cole no editor.
+3. Copie TODO o conteúdo do arquivo "supabase.sql" e cole no editor.
 4. Clique em "Run".
 5. Confirme que aparece a mensagem de sucesso.
 
-
-3) CRIAR O BUCKET DE IMAGENS
-----------------------------
-1. No menu lateral, clique em "Storage".
-2. Clique em "New bucket".
-3. Nome:  atividades-imagens      (exatamente igual)
-4. Marque a opção "Public bucket".
-5. Crie.
+(Não precisa mexer em "Storage" — o código já salva as imagens na tabela.)
 
 
-4) LIBERAR O ENVIO DE IMAGENS
------------------------------
-1. Volte ao "SQL Editor".
-2. Copie a PARTE 2 do arquivo "supabase.sql" (as políticas do storage).
-3. Rode.
-4. A publicação de imagens nos menus "Tables" ou "Storage" não é necessária.
-
-
-5) COLOCAR AS CHAVES NO SITE
+3) COLOCAR AS CHAVES NO SITE
 ----------------------------
 1. No painel: menu lateral  Settings  >  API  (ou "Project Settings > API").
 2. Copie o "Project URL"  (ex.: https://abcdefgh.supabase.co).
@@ -54,7 +38,7 @@ funcionará direto pelo link do GitHub.
    (sem deixar espaços extras)
 
 
-6) PUBLICAR NO GITHUB PAGES
+4) PUBLICAR NO GITHUB PAGES
 ---------------------------
 1. Envie (git push) todos os arquivos para o repositório.
 2. No GitHub: repo > Settings > Pages.
@@ -68,5 +52,5 @@ funcionará direto pelo link do GitHub.
 DICAS
 -----
 - O login funciona offline (fallback local): jusantos/123 ou prof@gmail.com/1234.
-- As imagens enviadas ficam no bucket do Supabase com link público.
+- A imagem é reduzida automaticamente antes de ser salva, para não pesar no banco.
 - Qualquer pessoa que visitar o site verá as atividades cadastradas.

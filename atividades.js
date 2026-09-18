@@ -23,6 +23,10 @@ function caminhoImagem(imagem) {
         return imagem;
     }
 
+    if (imagem.indexOf("data:") === 0) {
+        return imagem;
+    }
+
     return "./IMG PORTIFÓLIO/" + imagem;
 }
 
