@@ -19,6 +19,7 @@ function criarCard(atividade) {
 
     const card = document.createElement("article");
     card.className = "card";
+    card.dataset.id = atividade.id;
 
     const imagemDiv = document.createElement("div");
     imagemDiv.className = "imagem";
@@ -81,6 +82,9 @@ async function carregarAtividades() {
             });
 
             atividades.forEach(function (atividade) {
+
+                if (secao.querySelector('[data-id="' + atividade.id + '"]')) return;
+
                 secao.appendChild(criarCard(atividade));
             });
         });

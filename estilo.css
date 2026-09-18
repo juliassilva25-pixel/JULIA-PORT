@@ -385,6 +385,139 @@ footer {
 
 
 /* =========================
+   FORMULÁRIO EMBUTIDO (CADASTRAR ATIVIDADE)
+========================= */
+
+.cadastro-atividade {
+    width: 90%;
+    max-width: 1500px;
+    margin: 0 auto 70px;
+}
+
+.cadastro-box {
+    background: #e8e1d9;
+    border-radius: 24px;
+    padding: 20px 30px;
+    box-shadow: 0 15px 35px rgba(25,0,0,.25);
+}
+
+.cadastro-box summary {
+    cursor: pointer;
+    font-family: "Playfair Display", serif;
+    color: #650006;
+    font-size: 22px;
+    padding: 10px 0;
+    outline: none;
+    list-style: none;
+}
+
+.cadastro-box summary::-webkit-details-marker {
+    display: none;
+}
+
+.cadastro-box summary::before {
+    content: "+ ";
+    color: #8b151c;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.cadastro-box summary:hover {
+    color: #8b151c;
+}
+
+.form-atividade-inline {
+    margin-top: 18px;
+}
+
+.campos-inline {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.campo-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-inline label {
+    color: #650006;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.campo-inline input,
+.campo-inline select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: #fff;
+    color: #3b1016;
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: .3s;
+}
+
+.campo-inline input:focus,
+.campo-inline select:focus {
+    border-color: #8b151c;
+}
+
+.preview-inline {
+    margin-top: 8px;
+}
+
+.preview-inline img {
+    max-width: 100%;
+    max-height: 260px;
+    border-radius: 12px;
+    border: 2px solid #8b151c;
+}
+
+.btn-salvar-inline {
+    margin-top: 22px;
+    background: #650006;
+    color: #fff;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 30px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn-salvar-inline:hover {
+    background: #8b151c;
+    transform: translateY(-2px);
+}
+
+.msg-form {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 18px;
+    color: #650006;
+}
+
+@media (max-width: 700px) {
+    .campos-inline {
+        grid-template-columns: 1fr;
+    }
+
+    .cadastro-box {
+        padding: 18px;
+    }
+}
+
+/* =========================
    RESPONSIVIDADE PARA CELULAR
    ========================= */
 

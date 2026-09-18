@@ -274,10 +274,56 @@
     </main>
 
 
+    <section class="cadastro-atividade">
+        <details class="cadastro-box">
+            <summary>Cadastrar nova atividade</summary>
+            <form class="form-atividade-inline" enctype="multipart/form-data">
+
+                <div class="campos-inline">
+
+                    <div class="campo-inline">
+                        <label for="numeroEixo">Número do Eixo</label>
+                        <select name="numero_eixo" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">Eixo 1</option>
+                            <option value="2">Eixo 2</option>
+                            <option value="3">Eixo 3</option>
+                            <option value="4">Eixo 4</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-inline">
+                        <label for="dataAtividade">Data</label>
+                        <input type="date" name="data" required>
+                    </div>
+
+                    <div class="campo-inline">
+                        <label for="nomeAtividade">Nome da atividade</label>
+                        <input type="text" name="nome" placeholder="Ex.: Mapa mental" required>
+                    </div>
+
+                    <div class="campo-inline">
+                        <label for="imagemAtividade">Imagem da atividade</label>
+                        <input type="file" name="imagem" accept="image/*" required>
+                        <div class="preview-inline" hidden></div>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-salvar-inline">Salvar atividade</button>
+
+                <p class="msg-form"></p>
+
+            </form>
+        </details>
+    </section>
+
     <footer>
         <p>© 2026 Júlia Santos • Portfólio</p>
     </footer>
 
     <script src="atividades.js"></script>
+
+    <script src="cadastrar-atividade-inline.js"></script>
 
 </body>

@@ -279,6 +279,28 @@ button:hover{
 
 }
 
+.topbar a.btn-cadastrar {
+
+  background: #f0e4c2;
+
+  color: #690303;
+
+  font-weight: bold;
+
+  border: 2px solid #f0e4c2;
+
+}
+
+.topbar a.btn-cadastrar:hover {
+
+  background: #500202;
+
+  color: #ffffff;
+
+  border-color: #500202;
+
+}
+
 
 
 a{
