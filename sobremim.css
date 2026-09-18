@@ -176,11 +176,46 @@ blockquote{
         width:100%;
     }
 
+    .texto h1{
+        font-size:42px;
+    }
+
     .cards{
         grid-template-columns:1fr;
     }
 
     .linha{
         flex-direction:column;
+    }
+}
+
+@media(max-width:480px){
+
+    .container{
+        width:92%;
+        padding:18px;
+    }
+
+    .texto h1{
+        font-size:32px;
+    }
+
+    .frase{
+        font-size:18px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .trajetoria{
+        margin-top:35px;
+    }
+
+    nav{
+        width:92%;
+        flex-wrap:wrap;
+        gap:10px;
+        padding:14px;
     }
 }

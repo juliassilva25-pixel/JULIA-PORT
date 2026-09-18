@@ -526,6 +526,17 @@ body {
     overflow-x: hidden;
 }
 
+@media (max-width: 1200px) {
+
+    .projetos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .numero-eixo {
+        font-size: 68px;
+    }
+}
+
 @media (max-width: 700px) {
 
     .topbar {
@@ -548,9 +559,20 @@ body {
         margin: 20px auto;
     }
 
-    h1 {
-        font-size: 38px;
-        line-height: 1.1;
+    .cabecalho-eixo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 45px 0 28px;
+    }
+
+    .numero-eixo {
+        font-size: 46px;
+    }
+
+    .cabecalho-eixo h1 {
+        font-size: 42px;
+        line-height: 1.05;
     }
 
     .descricao {
@@ -572,6 +594,43 @@ body {
         height: auto;
         max-height: 330px;
         object-fit: cover;
+    }
+
+    .imagem {
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    .card h2 {
+        font-size: 19px;
+    }
+
+    .cadastro-atividade {
+        width: 92%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .cabecalho-eixo h1 {
+        font-size: 34px;
+    }
+
+    .numero-eixo {
+        font-size: 38px;
+    }
+
+    .descricao {
+        font-size: 15px;
+    }
+
+    .imagem {
+        aspect-ratio: 4 / 3;
+        border-radius: 14px;
+    }
+
+    .card-conteudo {
+        padding: 16px 6px 8px;
     }
 }
 

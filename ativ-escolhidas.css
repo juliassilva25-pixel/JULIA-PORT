@@ -63,6 +63,18 @@ body{
 
 @media (max-width: 700px) {
 
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .port {
+        position: static;
+        height: auto;
+        min-height: 100vh;
+        padding: 30px 18px 50px;
+    }
+
     .eixo1,
     .eixo2 {
         position: relative;
@@ -72,12 +84,26 @@ body{
         bottom: auto;
         width: 100%;
         margin: 20px 0;
+        text-align: center;
+    }
+
+    .eixo1 h2,
+    .eixo2 h2 {
+        font-size: 42px;
+    }
+
+    .eixo1 p,
+    .eixo2 p {
+        font-size: 24px;
     }
 
     .linha {
         width: 100%;
         height: 2px;
         margin: 20px 0;
+        position: relative;
+        left: auto;
+        transform: none;
     }
 
     .boneca {
@@ -107,6 +133,16 @@ body{
 
     h1 {
         font-size: 30px;
+    }
+
+    .eixo1 h2,
+    .eixo2 h2 {
+        font-size: 36px;
+    }
+
+    .eixo1 p,
+    .eixo2 p {
+        font-size: 20px;
     }
 
     .boneca {

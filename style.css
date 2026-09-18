@@ -320,3 +320,113 @@ footer{
   align-items: center;
 
 }
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 900px) {
+
+    body {
+        height: auto;
+        min-height: 100vh;
+        padding: 20px 10px;
+    }
+
+    .container {
+        width: 96%;
+    }
+
+    .topbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .topbar a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .main-img img {
+        border-radius: 16px;
+    }
+
+    .bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .text {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+
+    .circles {
+        justify-content: center;
+    }
+
+    .circles img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .text h2 {
+        font-size: 21px;
+    }
+
+    .text p {
+        font-size: 13px;
+    }
+
+    footer a {
+        margin: 12px;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .mini-img {
+        bottom: 12px;
+        left: 12px;
+        padding: 6px;
+    }
+
+    .mini-img img {
+        width: 56px;
+    }
+
+    .tag {
+        bottom: 12px;
+        right: 12px;
+        padding: 7px 10px;
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .tag img {
+        width: 22px;
+    }
+
+    .topbar a {
+        font-size: 13px;
+        padding: 7px 10px;
+    }
+
+    .circles img {
+        width: 52px;
+        height: 52px;
+    }
+}

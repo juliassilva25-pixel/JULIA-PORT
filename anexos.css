@@ -349,12 +349,31 @@ h1 {
    RESPONSIVIDADE MOBILE
    ========================= */
 
+@media (max-width: 1100px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 25px;
+        padding: 35px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 650px) {
 
     body {
         display: block;
         height: auto;
         min-height: 100vh;
+        overflow: visible;
         padding: 20px 10px;
     }
 
@@ -383,6 +402,7 @@ h1 {
 
     .card {
         width: 100%;
+        min-height: auto;
     }
 
     .card img {
@@ -399,5 +419,9 @@ h1 {
 
     .subtitulo {
         font-size: 16px;
+    }
+
+    .linha-final span {
+        width: 60px;
     }
 }
