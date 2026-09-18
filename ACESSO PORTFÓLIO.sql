@@ -15,3 +15,15 @@ INSERT INTO usuarios (usuario, senha, tipo)VALUES
 ('prof@gmail.com', '1234', 'professores');
 
 SELECT * FROM usuarios;
+
+CREATE TABLE atividades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    eixo VARCHAR(50) NOT NULL,
+    numero_eixo INT NOT NULL,
+    data DATE NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    imagem VARCHAR(255) NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT * FROM atividades;
