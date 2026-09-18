@@ -1,5 +1,13 @@
 console.log("CADASTRAR-ATIVIDADE.JS FOI CARREGADO!");
 
+const ARQUIVOS = {
+    "Linguagens": "linguagens.html",
+    "Humanas": "humanas.html",
+    "Matemática": "matematica.html",
+    "Natureza": "natureza.html",
+    "SENAI": "SENAI.html"
+};
+
 const formulario = document.getElementById("formAtividade");
 const mensagem = document.getElementById("mensagem");
 const imagemInput = document.getElementById("imagem");
@@ -26,12 +34,25 @@ imagemInput.addEventListener("change", function () {
     leitor.readAsDataURL(arquivo);
 });
 
-formulario.addEventListener("submit", async function (event) {
+function verificarConfiguracao() {
+
+    if (supabaseConfigurado()) return true;
+
+    mensagem.textContent =
+        "Supabase ainda não configurado. Siga o guia configurar-supabase.txt.";
+    mensagem.style.color = "red";
+
+    return false;
+}
+
+formulario.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
     mensagem.textContent = "Enviando...";
     mensagem.style.color = "black";
+
+    if (!verificarConfiguracao()) return;
 
     const eixo = document.getElementById("eixo").value;
     const numero_eixo = document.getElementById("numero_eixo").value;
@@ -40,52 +61,39 @@ formulario.addEventListener("submit", async function (event) {
     const imagem = imagemInput.files[0];
 
     if (!eixo || !numero_eixo || !data || nome === "" || !imagem) {
+
         mensagem.textContent = "Preencha todos os campos e selecione a imagem.";
         mensagem.style.color = "red";
+
         return;
     }
 
-    const formData = new FormData();
-    formData.append("eixo", eixo);
-    formData.append("numero_eixo", numero_eixo);
-    formData.append("data", data);
-    formData.append("nome", nome);
-    formData.append("imagem", imagem);
+    cadastrarAtividadeComImagem(
+        {
+            eixo: eixo,
+            numero_eixo: Number(numero_eixo),
+            data: data,
+            nome: nome
+        },
+        imagem
+    ).then(function () {
 
-    try {
+        mensagem.textContent = "Atividade cadastrada! Redirecionando...";
+        mensagem.style.color = "green";
 
-        console.log("Enviando atividade...", nome);
+        const destino = ARQUIVOS[eixo] || "indexx.html";
 
-        const resposta = await fetch(
-            "http://127.0.0.1:3000/atividades",
-            {
-                method: "POST",
-                body: formData
-            }
-        );
+        setTimeout(function () {
+            window.location.href = destino + "?eixo=" + numero_eixo;
+        }, 900);
 
-        const dados = await resposta.json();
-
-        console.log("Resposta do servidor:", dados);
-
-        if (dados.sucesso) {
-            mensagem.textContent = "Atividade cadastrada com sucesso!";
-            mensagem.style.color = "green";
-            formulario.reset();
-            preview.hidden = true;
-            previewImg.src = "";
-        } else {
-            mensagem.textContent = dados.mensagem;
-            mensagem.style.color = "red";
-        }
-
-    } catch (erro) {
+    }).catch(function (erro) {
 
         console.error("ERRO:", erro);
 
-        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.textContent = "Erro ao cadastrar: " + erro.message;
         mensagem.style.color = "red";
-    }
+    });
 });
 
 function limparForm() {

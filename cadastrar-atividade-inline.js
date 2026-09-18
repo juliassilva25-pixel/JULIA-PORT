@@ -34,12 +34,21 @@ document.querySelectorAll(".form-atividade-inline").forEach(function (form) {
         leitor.readAsDataURL(arquivo);
     });
 
-    form.addEventListener("submit", async function (event) {
+    form.addEventListener("submit", function (event) {
 
         event.preventDefault();
 
         msg.textContent = "Enviando...";
         msg.style.color = "black";
+
+        if (!supabaseConfigurado()) {
+
+            msg.textContent =
+                "Supabase ainda não configurado. Siga o guia configurar-supabase.txt.";
+            msg.style.color = "red";
+
+            return;
+        }
 
         const numero_eixo = form.querySelector('select[name="numero_eixo"]').value;
         const data = form.querySelector('input[name="data"]').value;
@@ -54,51 +63,39 @@ document.querySelectorAll(".form-atividade-inline").forEach(function (form) {
             return;
         }
 
-        const formData = new FormData();
-        formData.append("eixo", eixo);
-        formData.append("numero_eixo", numero_eixo);
-        formData.append("data", data);
-        formData.append("nome", nome);
-        formData.append("imagem", imagem);
+        cadastrarAtividadeComImagem(
+            {
+                eixo: eixo,
+                numero_eixo: Number(numero_eixo),
+                data: data,
+                nome: nome
+            },
+            imagem
+        ).then(function () {
 
-        try {
+            msg.textContent = "Atividade cadastrada com sucesso!";
+            msg.style.color = "green";
 
-            console.log("Enviando atividade:", nome, "-", eixo);
+            form.reset();
+            preview.hidden = true;
+            preview.innerHTML = "";
 
-            const resposta = await fetch(
-                "http://127.0.0.1:3000/atividades",
-                { method: "POST", body: formData }
-            );
-
-            const dados = await resposta.json();
-
-            console.log("Resposta do servidor:", dados);
-
-            if (dados.sucesso) {
-
-                msg.textContent = "Atividade cadastrada com sucesso!";
-                msg.style.color = "green";
-
-                form.reset();
-                preview.hidden = true;
-                preview.innerHTML = "";
-
-                if (typeof carregarAtividades === "function") {
-                    carregarAtividades();
-                }
-
-            } else {
-
-                msg.textContent = dados.mensagem;
-                msg.style.color = "red";
+            if (typeof carregarAtividades === "function") {
+                carregarAtividades();
             }
 
-        } catch (erro) {
+            if (typeof rolarParaEixo === "function") {
+                setTimeout(function () {
+                    rolarParaEixo(numero_eixo);
+                }, 100);
+            }
+
+        }).catch(function (erro) {
 
             console.error("ERRO:", erro);
 
-            msg.textContent = "Erro ao conectar com o servidor.";
+            msg.textContent = "Erro ao cadastrar: " + erro.message;
             msg.style.color = "red";
-        }
+        });
     });
 });

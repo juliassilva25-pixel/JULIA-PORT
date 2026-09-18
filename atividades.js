@@ -6,13 +6,24 @@ function formatarData(data) {
 
     if (!data) return "";
 
-    const partes = data.split("-");
+    const partes = String(data).split("-");
 
     if (partes.length === 3) {
         return partes[2] + "/" + partes[1];
     }
 
     return data;
+}
+
+function caminhoImagem(imagem) {
+
+    if (!imagem) return "";
+
+    if (imagem.indexOf("http") === 0) {
+        return imagem;
+    }
+
+    return "./IMG PORTIFÓLIO/" + imagem;
 }
 
 function criarCard(atividade) {
@@ -25,7 +36,7 @@ function criarCard(atividade) {
     imagemDiv.className = "imagem";
 
     const imagem = document.createElement("img");
-    imagem.src = "./IMG PORTIFÓLIO/" + atividade.imagem;
+    imagem.src = caminhoImagem(atividade.imagem);
     imagem.alt = atividade.nome;
     imagem.loading = "lazy";
 
@@ -54,13 +65,15 @@ async function carregarAtividades() {
 
     try {
 
+        if (!supabaseConfigurado()) {
+
+            console.warn("Supabase não configurado. Preencha supabase-config.js");
+            return;
+        }
+
         console.log("Buscando atividades para:", MATERIA);
 
-        const resposta = await fetch("http://127.0.0.1:3000/atividades");
-
-        const dados = await resposta.json();
-
-        if (!dados.sucesso) return;
+        const atividades = await listarAtividades();
 
         const secoes = document.querySelectorAll(".projetos");
 
@@ -76,12 +89,12 @@ async function carregarAtividades() {
 
             const numeroEixo = numero.textContent.trim();
 
-            const atividades = dados.atividades.filter(function (item) {
+            const atividadesDoEixo = atividades.filter(function (item) {
                 return item.eixo === MATERIA
                     && String(item.numero_eixo) === String(numeroEixo);
             });
 
-            atividades.forEach(function (atividade) {
+            atividadesDoEixo.forEach(function (atividade) {
 
                 if (secao.querySelector('[data-id="' + atividade.id + '"]')) return;
 
@@ -89,12 +102,63 @@ async function carregarAtividades() {
             });
         });
 
+        rolarParaEixoQuandoSolicitado();
+
     } catch (erro) {
 
         console.error("ERRO AO BUSCAR ATIVIDADES:", erro);
     }
 }
 
+function rolarParaEixo(numero) {
+
+    if (!numero) return;
+
+    const cabecalhos = document.querySelectorAll(".cabecalho-eixo");
+
+    for (let i = 0; i < cabecalhos.length; i++) {
+
+        const span = cabecalhos[i].querySelector("h1 span");
+
+        if (span && span.textContent.trim() === String(numero)) {
+
+            cabecalhos[i].scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            break;
+        }
+    }
+}
+
+function rolarParaEixoQuandoSolicitado() {
+
+    const eixoParam = new URLSearchParams(window.location.search).get("eixo");
+
+    if (!eixoParam) return;
+
+    rolarParaEixo(eixoParam);
+}
+
+let rolagemInicial = false;
+
+async function carregarErolarInicial() {
+
+    await carregarAtividades();
+
+    if (!rolagemInicial) {
+
+        rolarParaEixoQuandoSolicitado();
+        rolagemInicial = true;
+    }
+}
+
 if (MATERIA) {
-    carregarAtividades();
+
+    carregarErolarInicial();
+
+    window.addEventListener("focus", function () {
+        carregarAtividades();
+    });
 }

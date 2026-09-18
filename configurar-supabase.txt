@@ -1,0 +1,72 @@
+COMO FAZER O CADASTRO DE ATIVIDADES FUNCIONAR NO GITHUB PAGES
+==============================================================
+
+O GitHub Pages só serve arquivos estáticos, então ele NÃO roda o Node.js
+nem o MySQL. Por isso o site agora usa o SUPABASE (gratuito) como banco
+de dados e para guardar as imagens. Siga os passos abaixo UMA vez e tudo
+funcionará direto pelo link do GitHub.
+
+
+1) CRIAR A CONTA E O PROJETO
+----------------------------
+1. Entre em https://supabase.com e clique em "Start your project".
+2. Crie um projeto (nome livre, senha do banco à sua escolha, região próxima).
+3. Aguarde o projeto ficar pronto.
+
+
+2) CRIAR A TABELA
+-----------------
+1. No painel do Supabase, abra o menu "SQL Editor".
+2. Clique em "New query".
+3. Copie TODA a primeira parte do arquivo "supabase.sql" (a parte da tabela
+   e das políticas) e cole no editor.
+4. Clique em "Run".
+5. Confirme que aparece a mensagem de sucesso.
+
+
+3) CRIAR O BUCKET DE IMAGENS
+----------------------------
+1. No menu lateral, clique em "Storage".
+2. Clique em "New bucket".
+3. Nome:  atividades-imagens      (exatamente igual)
+4. Marque a opção "Public bucket".
+5. Crie.
+
+
+4) LIBERAR O ENVIO DE IMAGENS
+-----------------------------
+1. Volte ao "SQL Editor".
+2. Copie a PARTE 2 do arquivo "supabase.sql" (as políticas do storage).
+3. Rode.
+4. A publicação de imagens nos menus "Tables" ou "Storage" não é necessária.
+
+
+5) COLOCAR AS CHAVES NO SITE
+----------------------------
+1. No painel: menu lateral  Settings  >  API  (ou "Project Settings > API").
+2. Copie o "Project URL"  (ex.: https://abcdefgh.supabase.co).
+3. Copie a chave pública "anon public" (a segunda chave da lista).
+4. Abra o arquivo  supabase-config.js  no projeto e preencha:
+
+   const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
+   const SUPABASE_ANON_KEY = "sua-chave-anon-aqui";
+
+   (sem deixar espaços extras)
+
+
+6) PUBLICAR NO GITHUB PAGES
+---------------------------
+1. Envie (git push) todos os arquivos para o repositório.
+2. No GitHub: repo > Settings > Pages.
+3. Em "Source" escolha "Deploy from a branch" > branch "main" > pasta "/ (root)".
+4. Salve. Em alguns minutos o site estará no ar em:
+   https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/
+
+5. Acesse pelo link, faça login (jusantos / 123) e cadastre as atividades.
+
+
+DICAS
+-----
+- O login funciona offline (fallback local): jusantos/123 ou prof@gmail.com/1234.
+- As imagens enviadas ficam no bucket do Supabase com link público.
+- Qualquer pessoa que visitar o site verá as atividades cadastradas.

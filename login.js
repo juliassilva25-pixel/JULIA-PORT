@@ -127,11 +127,46 @@ formulario.addEventListener("submit", async function (event) {
         );
 
 
-        mensagem.textContent =
-            "Erro ao conectar com o servidor.";
+        // Fallback: se o servidor não estiver no ar (ex.: GitHub Pages),
+        // faz o login com as contas cadastradas direto no navegador.
 
-        mensagem.style.color =
-            "red";
+        const contaLocal = loginLocal(usuario, senha);
+
+        if (contaLocal) {
+
+            console.log("✅ Login local (sem servidor)");
+
+            mensagem.textContent =
+                "Login realizado com sucesso!";
+
+            mensagem.style.color =
+                "green";
+
+            localStorage.setItem(
+                "usuario",
+                contaLocal.usuario
+            );
+
+            localStorage.setItem(
+                "tipo",
+                contaLocal.tipo
+            );
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "indexx.html";
+
+            }, 800);
+
+        } else {
+
+            mensagem.textContent =
+                "Erro ao conectar com o servidor. Verifique se ele está rodando.";
+
+            mensagem.style.color =
+                "red";
+        }
 
     }
 
@@ -141,6 +176,21 @@ formulario.addEventListener("submit", async function (event) {
 // ========================================
 // CANCELAR
 // ========================================
+
+function loginLocal(usuario, senha) {
+
+    const contas = [
+
+        { usuario: "jusantos", senha: "123", tipo: "aluna" },
+        { usuario: "prof@gmail.com", senha: "1234", tipo: "professores" }
+
+    ];
+
+    return contas.find(function (conta) {
+
+        return conta.usuario === usuario && conta.senha === senha;
+    });
+}
 
 function cancelar() {
 
