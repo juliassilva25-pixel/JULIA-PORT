@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="./login.css">
+
+</head>
+
+
+<body>
+
+
+    <div class="center">
+
+
+        <h1>LOGIN</h1>
+        <h2>acesso</h2>
+
+
+
+        <form id="loginForm">
+
+
+
+            <div class="text_field">
+
+                <input
+                    type="text"
+                    id="login"
+                    name="login"
+                    required
+                    autocomplete="username"
+                >
+
+                <label for="login">
+                    Usuário
+                </label>
+
+            </div>
+
+
+
+            <div class="text_field">
+
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    required
+                    autocomplete="current-password"
+                >
+
+                <label for="senha">
+                    Senha
+                </label>
+
+            </div>
+
+
+            <div class="pass">
+
+                Esqueceu a senha?
+
+            </div>
+
+
+
+            <div class="botoes">
+
+
+                <input
+                    type="submit"
+                    value="Conectar"
+                    class="btn-conectar"
+                >
+
+
+                <input
+                    type="button"
+                    value="Cancelar"
+                    class="btn-cancelar"
+                    onclick="cancelar()"
+                >
+
+
+            </div>
+
+
+            <!-- MENSAGEM DO LOGIN -->
+
+            <p id="mensagem"></p>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="./login.js"></script>
+
+
+</body>
+
+</html>
+

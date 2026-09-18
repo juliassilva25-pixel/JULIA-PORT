@@ -1,0 +1,320 @@
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family: "Trirong", serif;
+
+            background: linear-gradient(
+                120deg,
+                #500000,
+                #851111,
+                #a01616,
+                #a82727
+            );
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+
+        .center {
+
+            width: 360px;
+
+            min-height: 400px;
+
+            background: #ffffff;
+
+            border-radius: 10px;
+
+            padding: 0 40px 30px 40px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+
+        .center h1 {
+
+            text-align: center;
+
+            padding: 20px 0;
+
+            margin: 0 0 25px 0;
+
+            border-bottom:
+                1px solid rgba(0, 0, 0, 0.4);
+
+            font-size: 32px;
+        }
+
+
+        .text_field {
+
+            position: relative;
+
+            border-bottom: 2px solid #000000;
+
+            margin: 25px 0;
+        }
+
+
+        .text_field input {
+
+            width: 100%;
+
+            padding: 0 5px;
+
+            height: 40px;
+
+            font-size: 16px;
+
+            border: none;
+
+            background: none;
+
+            outline: none;
+        }
+
+
+        .text_field label {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 5px;
+
+            color: #570404;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+            pointer-events: none;
+
+            transition: 0.3s;
+        }
+
+
+        .text_field input:focus ~ label,
+        .text_field input:valid ~ label {
+
+            top: -5px;
+
+            color: #790f0f;
+
+            font-size: 14px;
+        }
+
+
+        .pass {
+
+            margin-top: 20px;
+
+            margin-bottom: 20px;
+
+            color: #000000;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        .pass:hover {
+
+            text-decoration: underline;
+
+            color: #940505;
+        }
+
+
+        .botoes {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .botoes input {
+
+            flex: 1;
+
+            height: 40px;
+
+            border-radius: 25px;
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+
+        .btn-conectar {
+
+            border: 1px solid #8d0303;
+
+            background: #860101;
+
+            color: #ffffff;
+        }
+
+
+        .btn-conectar:hover {
+
+            background: #500202;
+
+            border-color: #030303;
+        }
+
+
+        .btn-conectar:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
+        .btn-cancelar {
+
+            border: 1px solid #700404;
+
+            background: #ffffff;
+
+            color: #b13636;
+        }
+
+
+        .btn-cancelar:hover {
+
+            background: #f13939;
+
+            color: #ffffff;
+        }
+
+
+        #mensagem {
+
+            text-align: center;
+
+            margin-top: 10px;
+
+            margin-bottom: 15px;
+
+            min-height: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .sucesso {
+
+            color: green;
+        }
+
+
+        .erro {
+
+            color: #c00000;
+        }
+
+
+        .signup_link {
+
+            margin: 20px 0 0;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+
+        .signup_link a {
+
+            text-decoration: none;
+
+            color: #000000;
+        }
+
+
+        .signup_link a:hover {
+
+            text-decoration: underline;
+
+            color: #810404;
+        }
+
+/* =========================
+   RESPONSIVIDADE MOBILE
+   ========================= */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 360px;
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 340px) {
+
+    .login-container {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    button {
+        width: 100%;
+    }
+}

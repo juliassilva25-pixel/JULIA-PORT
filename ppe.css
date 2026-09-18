@@ -1,0 +1,122 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#efe2d0;
+    padding:40px;
+
+    font-family:'Poppins',sans-serif;
+}
+
+.cronograma{
+    width:95%;
+    max-width:1800px;
+    margin:auto;
+    background:#f7eddc;
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.08);
+    border-radius:40px;
+    border-radius:35px;
+    padding:40px;
+    box-shadow:
+    0 10px 35px rgba(0,0,0,.08);
+}
+
+.titulo-box{
+    text-align:center;
+}
+
+.titulo-box h1{
+    display:inline-block;
+    padding:18px 50px;
+    background:white;
+    color:#7a0000;
+    border-radius:18px;
+    font-size:3rem;
+    font-family:'Times New Roman', serif;
+    box-shadow:none;
+}
+
+.decoracao{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:25px;
+    margin:20px 0 40px;
+    color:#7a0000;
+}
+
+.decoracao span{
+    font-size:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    overflow:hidden;
+    border-radius:25px;
+    background:#fffdf9;
+    box-shadow:
+    0 5px 25px rgba(0,0,0,.05);
+}
+
+thead th{
+    background:#7a0000;
+    color:white;
+    padding:16px;
+    font-size:1.2rem;
+}
+
+tbody td{
+    text-align:center;
+    padding:20px;
+    border:1px solid #d8ccb8;
+    font-size:1rem;
+    transition:.3s;
+}
+
+tbody td:first-child{
+    color:#7a0000;
+    font-weight:bold;
+    background:#fffdf8;
+}
+
+.frase{
+    margin-top:40px;
+    text-align:center;
+}
+
+.frase p{
+    color:#7a0000;
+    font-size:2rem;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    margin-bottom:10px;
+}
+
+.frase i{
+    color:#dba3a3;
+    font-size:24px;
+}
+
+@media(max-width:1000px){
+
+    .titulo-box h1{
+        font-size:2.5rem;
+        padding:15px 30px;
+    }
+
+    .cronograma{
+        padding:20px;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+}

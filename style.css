@@ -1,0 +1,300 @@
+
+body {
+
+ background: #eee4d1;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  height: 100vh;
+
+  font-family: 'Poppins', sans-serif;
+
+}
+
+
+
+.container {
+
+  width: 90%;
+
+  max-width: 1000px;
+
+  margin: auto;
+
+}
+
+
+
+.topbar {
+
+ background: #690303;
+
+  color: white;
+
+  padding: 10px;
+
+  border-radius: 20px;
+
+  display: flex;
+
+  justify-content: space-around;
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.card {
+    background: #f8f0df;
+
+    padding: 38px;
+
+    border-radius: 25px;
+
+    border: 2px solid #690303;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+
+
+.main-img {
+
+  position: relative;
+
+}
+
+.main-img img {
+
+  width: 100%;
+
+  border-radius: 25px;
+
+  transition: 0.4s;
+
+}
+
+
+
+
+.mini-img {
+
+  position: absolute;
+
+  bottom: 20px;
+
+  left: 20px;
+
+  background: #500202;
+
+  padding: 10px;
+
+  border-radius: 15px;
+
+}
+
+.mini-img img {
+
+  width: 80px;
+
+  border-radius: 10px;
+
+}
+
+
+
+footer img{
+
+    width: 30px;
+
+    height: 30px;
+
+}
+
+footer a{
+
+    margin: 50px;
+
+    text-align: center;
+
+    color: #ffffff;
+
+}
+
+
+
+.tag {
+
+  position: absolute;
+
+  bottom: 20px;
+
+  right: 20px;
+
+  background: #500202;
+
+  color: white;
+
+  padding: 10px 15px;
+
+  border-radius: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+.tag img {
+
+  width: 30px;
+
+  border-radius: 50%;
+
+}
+
+
+
+.bottom {
+
+  display: flex;
+
+  align-items: center;
+
+  margin-top: 20px;
+
+  transition: 0.3s ease;
+
+  cursor: pointer;
+
+}
+
+
+button:hover{
+
+  transform: translateY(-2px);
+
+  opacity: 0.9;
+
+}
+
+
+
+.circles {
+
+  display: flex;
+
+  gap: 16px;
+
+}
+
+.circles img {
+
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+}
+
+
+.text {
+
+  margin-left: 20px;
+
+}
+
+.text h2 {
+
+  margin: 0;
+
+  font-family: 'Times New Roman', Times, serif;
+
+ color: #500202;
+
+}
+
+.text p {
+
+  font-size: 14px;
+
+  color: #665858;
+
+}
+
+
+
+.topbar {
+
+  background: #690303;
+
+  padding: 12px;
+
+  border-radius: 30px;
+
+  display: flex;
+
+  justify-content: space-around;
+
+  align-items: center;
+
+}
+
+
+.topbar a {
+
+  color: white;
+
+  text-decoration: none;
+
+  padding: 8px 15px;
+
+  border-radius: 20px;
+
+  transition: 0.3s;
+
+}
+
+
+.topbar a:hover {
+
+  background: #500202;
+
+}
+
+
+.topbar a:active {
+
+  transform: scale(0.95);
+
+}
+
+
+
+a{
+
+  font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+footer{
+
+  font-size: 14px;
+
+  opacity: 0.7;
+
+  margin-top: 30px;
+
+  align-items: center;
+
+}

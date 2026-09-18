@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 35px;
+
+    background: #730006;
+
+    font-family: 'Poppins', sans-serif;
+
+    overflow: hidden;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 1450px;
+    min-height: 870px;
+
+    display: grid;
+
+    grid-template-columns: 38% 62%;
+
+    gap: 35px;
+
+    padding: 50px;
+
+    background: #f6ead6;
+
+    border: 1.5px solid #b67b6b;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.20);
+
+    position: relative;
+}
+
+
+
+
+.container::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    border: 1px solid #b67b6b;
+
+    border-radius: 23px;
+
+    pointer-events: none;
+}
+
+
+.introducao {
+    padding: 15px 20px 10px 5px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.titulo-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 6rem;
+
+    line-height: 0.9;
+
+    color: #720d17;
+
+    font-weight: 700;
+}
+
+
+.flor {
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 4.5rem;
+
+    color: #7d171d;
+
+    transform: rotate(-10deg);
+
+    margin-top: 20px;
+}
+
+
+.introducao h2 {
+
+    margin-top: 18px;
+
+    margin-bottom: 28px;
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 2rem;
+
+    font-style: italic;
+
+    color: #9b5b4c;
+
+    font-weight: 600;
+}
+
+
+.texto {
+    max-width: 510px;
+}
+
+
+.texto p {
+
+    font-family: Georgia, serif;
+
+    color: #382626;
+
+    font-size: 1.08rem;
+
+    line-height: 1.65;
+
+    margin-bottom: 25px;
+}
+
+.mensagem-final {
+
+    margin-top: auto;
+
+    margin-bottom: 18px;
+
+    text-align: center;
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 1.45rem;
+
+    line-height: 1.35;
+
+    font-style: italic;
+
+    font-weight: 600;
+
+    color: #791b1b;
+}
+
+
+.linha-final {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-bottom: 5px;
+}
+
+
+.linha-final span {
+
+    width: 150px;
+
+    height: 1px;
+
+    background: #a96a5b;
+}
+
+
+.linha-final b {
+
+    color: #8a2929;
+
+    font-size: 17px;
+}
+
+
+
+.eventos {
+
+    position: relative;
+
+    z-index: 2;
+
+    padding-top: 5px;
+}
+
+
+.titulo-eventos {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-bottom: 0;
+}
+
+
+.titulo-eventos span {
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #9b5a5a;
+}
+
+
+.titulo-eventos h3 {
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 1.8rem;
+
+    color: #6e1519;
+
+    white-space: nowrap;
+}
+
+
+.coracao {
+
+    text-align: center;
+
+    color: #79151b;
+
+    font-size: 18px;
+
+    margin-top: -3px;
+
+    margin-bottom: 25px;
+}
+
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+
+.card {
+
+    background: #f4e6d0;
+
+    border: 1px solid #e2cdb0;
+
+    border-radius: 13px;
+
+    padding: 9px;
+
+    min-height: 315px;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 8px rgba(90, 50, 30, 0.08);
+
+    transition: 0.3s ease;
+}
+
+
+.card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 18px rgba(90, 50, 30, 0.15);
+}
+
+
+.card img {
+
+    width: 100%;
+
+    height: 225px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 9px;
+
+    margin-bottom: 12px;
+}
+
+
+.card h4 {
+
+    font-family: Georgia, serif;
+
+    font-size: 1.05rem;
+
+    color: #771719;
+
+    margin-bottom: 5px;
+
+    font-weight: bold;
+}
+
+
+.card p {
+
+    font-family: Georgia, serif;
+
+    color: #382626;
+
+    font-size: 0.88rem;
+
+    line-height: 1.35;
+}
+
+
+/* =========================
+   RESPONSIVIDADE MOBILE
+   ========================= */
+
+@media (max-width: 650px) {
+
+    body {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        padding: 20px 10px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .flor {
+        width: 80px;
+        max-width: 100%;
+    }
+
+    .subtitulo {
+        font-size: 18px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 380px) {
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .subtitulo {
+        font-size: 16px;
+    }
+}
