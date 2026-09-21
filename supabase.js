@@ -140,3 +140,26 @@ async function cadastrarAtividadeComImagem(dados, arquivo) {
 
     await inserirAtividade(dados);
 }
+
+async function deletarAtividade(id) {
+
+    if (!supabaseConfigurado()) {
+
+        throw new Error("Supabase não configurado.");
+    }
+
+    const url = supabaseBase() +
+        "/rest/v1/atividades?id=eq." + encodeURIComponent(id);
+
+    const resposta = await fetch(url, {
+
+        method: "DELETE",
+
+        headers: supabaseHeaders()
+    });
+
+    if (!resposta.ok) {
+
+        throw new Error("Erro ao remover atividade (" + resposta.status + ")");
+    }
+}

@@ -2,6 +2,107 @@ console.log("ATIVIDADES.JS FOI CARREGADO!");
 
 const MATERIA = document.body.dataset.materia || "";
 
+const CHAVE_REMOVIDAS = "atividades_removidas";
+
+function obterRemovidas() {
+
+    try {
+
+        return JSON.parse(localStorage.getItem(CHAVE_REMOVIDAS)) || [];
+
+    } catch (e) {
+
+        return [];
+    }
+}
+
+function adicionarRemovida(identificador) {
+
+    const removidas = obterRemovidas();
+
+    if (removidas.indexOf(identificador) === -1) {
+
+        removidas.push(identificador);
+
+        localStorage.setItem(CHAVE_REMOVIDAS, JSON.stringify(removidas));
+    }
+}
+
+function criarBotaoRemover() {
+
+    const botao = document.createElement("button");
+
+    botao.type = "button";
+
+    botao.className = "btn-remover";
+
+    botao.title = "Remover atividade";
+
+    botao.setAttribute("aria-label", "Remover atividade");
+
+    botao.textContent = "×";
+
+    return botao;
+}
+
+function removerCard(card) {
+
+    const id = card.dataset.id;
+
+    if (id) {
+
+        deletarAtividade(id)
+
+            .then(function () {
+                card.remove();
+            })
+
+            .catch(function (erro) {
+                console.error("ERRO AO REMOVER ATIVIDADE:", erro);
+            });
+
+    } else {
+
+        const titulo = card.querySelector("h2");
+
+        if (titulo) {
+
+            adicionarRemovida(titulo.textContent);
+        }
+
+        card.remove();
+    }
+}
+
+function prepararCardsComRemover() {
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+
+        if (card.dataset.id) return;
+
+        const titulo = card.querySelector("h2");
+
+        if (titulo && obterRemovidas().indexOf(titulo.textContent) !== -1) {
+
+            card.remove();
+
+        } else if (!card.querySelector(".btn-remover")) {
+
+            const botao = criarBotaoRemover();
+
+            botao.addEventListener("click", function () {
+                removerCard(card);
+            });
+
+            card.appendChild(botao);
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", prepararCardsComRemover);
+
 function formatarData(data) {
 
     if (!data) return "";
@@ -35,6 +136,14 @@ function criarCard(atividade) {
     const card = document.createElement("article");
     card.className = "card";
     card.dataset.id = atividade.id;
+
+    const botaoRemover = criarBotaoRemover();
+
+    botaoRemover.addEventListener("click", function () {
+        removerCard(card);
+    });
+
+    card.appendChild(botaoRemover);
 
     const imagemDiv = document.createElement("div");
     imagemDiv.className = "imagem";

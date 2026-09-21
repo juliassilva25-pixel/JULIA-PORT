@@ -251,6 +251,64 @@ main {
 }
 
 
+/* botão de remover atividade (aparece no hover) */
+
+.btn-remover {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    z-index: 3;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #6d0007;
+
+    color: #fff;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transform: scale(.85);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease,
+        background .25s ease;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+}
+
+
+.card:hover .btn-remover,
+.card .btn-remover:focus-visible {
+    opacity: 1;
+
+    transform: scale(1);
+}
+
+
+.btn-remover:hover {
+    background: #3a0003;
+}
+
+
 /* número do card */
 
 .card-numero {
