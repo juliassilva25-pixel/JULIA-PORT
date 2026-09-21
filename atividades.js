@@ -4,7 +4,9 @@ const MATERIA = document.body.dataset.materia || "";
 
 const CHAVE_REMOVIDAS = "atividades_removidas";
 
-function obterRemovidas() {
+let removidasOnline = [];
+
+function obterRemovidasLocais() {
 
     try {
 
@@ -16,16 +18,78 @@ function obterRemovidas() {
     }
 }
 
-function adicionarRemovida(identificador) {
+const removidasLocais = obterRemovidasLocais();
 
-    const removidas = obterRemovidas();
+function salvarRemovidasLocais() {
 
-    if (removidas.indexOf(identificador) === -1) {
+    localStorage.setItem(CHAVE_REMOVIDAS, JSON.stringify(removidasLocais));
+}
 
-        removidas.push(identificador);
+function jaFoiRemovida(titulo) {
 
-        localStorage.setItem(CHAVE_REMOVIDAS, JSON.stringify(removidas));
+    if (removidasLocais.indexOf(titulo) !== -1) return true;
+
+    return removidasOnline.indexOf(titulo) !== -1;
+}
+
+async function carregarRemovidasOnline() {
+
+    if (!supabaseConfigurado()) return;
+
+    try {
+
+        const lista = await listarRemovidas();
+
+        removidasOnline = lista
+            .filter(function (item) {
+                return item.eixo === MATERIA;
+            })
+            .map(function (item) {
+                return item.titulo;
+            });
+
+    } catch (erro) {
+
+        console.error("ERRO AO BUSCAR ATIVIDADES REMOVIDAS:", erro);
     }
+}
+
+async function sincronizarRemocoesPendentes() {
+
+    if (!supabaseConfigurado() || !MATERIA) return;
+
+    for (const titulo of removidasLocais) {
+
+        if (removidasOnline.indexOf(titulo) !== -1) continue;
+
+        try {
+
+            await inserirRemovida(MATERIA, titulo);
+
+        } catch (erro) {
+
+            console.error("ERRO AO SINCRONIZAR REMOÇÃO:", erro);
+        }
+    }
+
+    await carregarRemovidasOnline();
+}
+
+function ocultarCardsRemovidos() {
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+
+        if (card.dataset.id) return;
+
+        const titulo = card.querySelector("h2");
+
+        if (titulo && jaFoiRemovida(titulo.textContent)) {
+
+            card.remove();
+        }
+    });
 }
 
 function criarBotaoRemover() {
@@ -65,12 +129,28 @@ function removerCard(card) {
 
         const titulo = card.querySelector("h2");
 
-        if (titulo) {
+        const nome = titulo ? titulo.textContent : "";
 
-            adicionarRemovida(titulo.textContent);
+        if (nome) {
+
+            if (removidasLocais.indexOf(nome) === -1) {
+
+                removidasLocais.push(nome);
+
+                salvarRemovidasLocais();
+            }
         }
 
         card.remove();
+
+        if (nome && supabaseConfigurado()) {
+
+            inserirRemovida(MATERIA, nome)
+
+                .catch(function (erro) {
+                    console.error("ERRO AO SINCRONIZAR REMOÇÃO:", erro);
+                });
+        }
     }
 }
 
@@ -84,7 +164,7 @@ function prepararCardsComRemover() {
 
         const titulo = card.querySelector("h2");
 
-        if (titulo && obterRemovidas().indexOf(titulo.textContent) !== -1) {
+        if (titulo && jaFoiRemovida(titulo.textContent)) {
 
             card.remove();
 
@@ -101,7 +181,16 @@ function prepararCardsComRemover() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", prepararCardsComRemover);
+async function inicializarRemocoes() {
+
+    await carregarRemovidasOnline();
+
+    await sincronizarRemocoesPendentes();
+
+    prepararCardsComRemover();
+}
+
+document.addEventListener("DOMContentLoaded", inicializarRemocoes);
 
 function formatarData(data) {
 
@@ -272,6 +361,13 @@ if (MATERIA) {
     carregarErolarInicial();
 
     window.addEventListener("focus", function () {
+
         carregarAtividades();
+
+        carregarRemovidasOnline().then(function () {
+
+            ocultarCardsRemovidos();
+            sincronizarRemocoesPendentes();
+        });
     });
 }

@@ -163,3 +163,57 @@ async function deletarAtividade(id) {
         throw new Error("Erro ao remover atividade (" + resposta.status + ")");
     }
 }
+
+async function listarRemovidas() {
+
+    if (!supabaseConfigurado()) {
+
+        console.warn("Supabase não configurado. Preencha supabase-config.js");
+        return [];
+    }
+
+    const url = supabaseBase() + "/rest/v1/atividades_removidas?select=eixo,titulo";
+
+    const resposta = await fetch(url, {
+
+        headers: supabaseHeaders()
+    });
+
+    if (!resposta.ok) {
+
+        throw new Error("Erro ao listar atividades removidas (" + resposta.status + ")");
+    }
+
+    return await resposta.json();
+}
+
+async function inserirRemovida(eixo, titulo) {
+
+    if (!supabaseConfigurado()) {
+
+        throw new Error("Supabase não configurado.");
+    }
+
+    const url = supabaseBase() +
+        "/rest/v1/atividades_removidas?on_conflict=eixo,titulo";
+
+    const resposta = await fetch(url, {
+
+        method: "POST",
+
+        headers: Object.assign(supabaseHeaders(), {
+            "Content-Type": "application/json",
+            "Prefer": "resolution=ignore-duplicates"
+        }),
+
+        body: JSON.stringify({
+            eixo: eixo,
+            titulo: titulo
+        })
+    });
+
+    if (!resposta.ok) {
+
+        throw new Error("Erro ao registrar atividade removida (" + resposta.status + ")");
+    }
+}
