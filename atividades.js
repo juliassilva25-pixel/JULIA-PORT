@@ -348,6 +348,11 @@ async function carregarErolarInicial() {
 
     await carregarAtividades();
 
+    carregarRemovidasOnline().then(function () {
+
+        ocultarCardsRemovidos();
+    });
+
     if (!rolagemInicial) {
 
         rolarParaEixoQuandoSolicitado();
@@ -368,4 +373,13 @@ if (MATERIA) {
             ocultarCardsRemovidos();
         });
     });
+
+    setInterval(function () {
+
+        carregarRemovidasOnline().then(function () {
+
+            ocultarCardsRemovidos();
+        });
+
+    }, 15000);
 }
