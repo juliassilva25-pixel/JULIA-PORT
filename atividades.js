@@ -2,195 +2,6 @@ console.log("ATIVIDADES.JS FOI CARREGADO!");
 
 const MATERIA = document.body.dataset.materia || "";
 
-let removidasOnline = [];
-
-async function carregarRemovidasOnline() {
-
-    if (!supabaseConfigurado()) return;
-
-    try {
-
-        const lista = await listarRemovidas();
-
-        removidasOnline = lista
-            .filter(function (item) {
-                return item.eixo === MATERIA;
-            })
-            .map(function (item) {
-                return item.titulo;
-            });
-
-    } catch (erro) {
-
-        console.error("ERRO AO BUSCAR ATIVIDADES REMOVIDAS:", erro);
-    }
-}
-
-function jaFoiRemovida(titulo) {
-
-    return removidasOnline.indexOf(titulo) !== -1;
-}
-
-function registrarRemovidaOnline(titulo) {
-
-    if (removidasOnline.indexOf(titulo) === -1) {
-
-        removidasOnline.push(titulo);
-    }
-}
-
-function ocultarCardPorTitulo(titulo) {
-
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(function (card) {
-
-        if (card.dataset.id) return;
-
-        const nome = card.querySelector("h2");
-
-        if (nome && nome.textContent === titulo) {
-
-            card.remove();
-        }
-    });
-}
-
-function ocultarCardsRemovidos() {
-
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(function (card) {
-
-        if (card.dataset.id) return;
-
-        const titulo = card.querySelector("h2");
-
-        if (titulo && jaFoiRemovida(titulo.textContent)) {
-
-            card.remove();
-        }
-    });
-}
-
-function criarBotaoRemover() {
-
-    const botao = document.createElement("button");
-
-    botao.type = "button";
-
-    botao.className = "btn-remover";
-
-    botao.title = "Remover atividade";
-
-    botao.setAttribute("aria-label", "Remover atividade");
-
-    botao.textContent = "×";
-
-    return botao;
-}
-
-function removerCard(card) {
-
-    const id = card.dataset.id;
-
-    if (id) {
-
-        deletarAtividade(id)
-
-            .then(function () {
-                card.remove();
-            })
-
-            .catch(function (erro) {
-                console.error("ERRO AO REMOVER ATIVIDADE:", erro);
-            });
-
-    } else {
-
-        const titulo = card.querySelector("h2");
-
-        const nome = titulo ? titulo.textContent : "";
-
-        if (!nome) return;
-
-        inserirRemovida(MATERIA, nome)
-
-            .then(function () {
-
-                registrarRemovidaOnline(nome);
-
-                card.remove();
-            })
-
-            .catch(function (erro) {
-
-                console.error("ERRO AO REMOVER ATIVIDADE:", erro);
-            });
-    }
-}
-
-function prepararCardsComRemover() {
-
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(function (card) {
-
-        if (card.dataset.id) return;
-
-        const titulo = card.querySelector("h2");
-
-        if (titulo && jaFoiRemovida(titulo.textContent)) {
-
-            card.remove();
-
-        } else if (!card.querySelector(".btn-remover")) {
-
-            const botao = criarBotaoRemover();
-
-            botao.addEventListener("click", function () {
-                removerCard(card);
-            });
-
-            card.appendChild(botao);
-        }
-    });
-}
-
-async function inicializarRemocoes() {
-
-    await carregarRemovidasOnline();
-
-    prepararCardsComRemover();
-}
-
-document.addEventListener("DOMContentLoaded", inicializarRemocoes);
-
-if (typeof conectarRealtime === "function") {
-
-    conectarRealtime();
-}
-
-if (typeof definirCallbacks === "function") {
-
-    definirCallbacks(
-
-        function (titulo) {
-
-            registrarRemovidaOnline(titulo);
-
-            ocultarCardPorTitulo(titulo);
-        },
-
-        function (id) {
-
-            const card = document.querySelector('.card[data-id="' + id + '"]');
-
-            if (card) card.remove();
-        }
-    );
-}
-
 function formatarData(data) {
 
     if (!data) return "";
@@ -216,7 +27,47 @@ function caminhoImagem(imagem) {
         return imagem;
     }
 
+    if (imagem.indexOf("/") !== -1) {
+        return imagem;
+    }
+
     return "./IMG PORTIFÓLIO/" + imagem;
+}
+
+function criarBotaoRemover() {
+
+    const botao = document.createElement("button");
+
+    botao.type = "button";
+
+    botao.className = "btn-remover";
+
+    botao.title = "Remover atividade";
+
+    botao.setAttribute("aria-label", "Remover atividade");
+
+    botao.textContent = "×";
+
+    return botao;
+}
+
+function removerCard(card) {
+
+    const id = card.dataset.id;
+
+    if (!id) return;
+
+    deletarAtividade(id)
+
+        .then(function () {
+
+            card.remove();
+        })
+
+        .catch(function (erro) {
+
+            console.error("ERRO AO REMOVER ATIVIDADE:", erro);
+        });
 }
 
 function criarCard(atividade) {
@@ -348,11 +199,6 @@ async function carregarErolarInicial() {
 
     await carregarAtividades();
 
-    carregarRemovidasOnline().then(function () {
-
-        ocultarCardsRemovidos();
-    });
-
     if (!rolagemInicial) {
 
         rolarParaEixoQuandoSolicitado();
@@ -367,19 +213,20 @@ if (MATERIA) {
     window.addEventListener("focus", function () {
 
         carregarAtividades();
-
-        carregarRemovidasOnline().then(function () {
-
-            ocultarCardsRemovidos();
-        });
     });
+}
 
-    setInterval(function () {
+if (typeof conectarRealtime === "function") {
 
-        carregarRemovidasOnline().then(function () {
+    conectarRealtime();
+}
 
-            ocultarCardsRemovidos();
-        });
+if (typeof definirCallbackAtividadeRemovida === "function") {
 
-    }, 15000);
+    definirCallbackAtividadeRemovida(function (id) {
+
+        const card = document.querySelector('.card[data-id="' + id + '"]');
+
+        if (card) card.remove();
+    });
 }

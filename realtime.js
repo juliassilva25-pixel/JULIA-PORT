@@ -5,15 +5,12 @@ const SUPABASE_CLIENT = (typeof window !== "undefined" && window.supabase)
     : null;
 
 let canalAtividades = null;
-let canalRemovidas = null;
 
-let callbackRemovida = null;
 let callbackAtividadeRemovida = null;
 
-function definirCallbacks(removida, atividadeRemovida) {
+function definirCallbackAtividadeRemovida(funcao) {
 
-    callbackRemovida = removida;
-    callbackAtividadeRemovida = atividadeRemovida;
+    callbackAtividadeRemovida = funcao;
 }
 
 function desconectarRealtime() {
@@ -22,12 +19,6 @@ function desconectarRealtime() {
 
         SUPABASE_CLIENT.removeChannel(canalAtividades);
         canalAtividades = null;
-    }
-
-    if (canalRemovidas) {
-
-        SUPABASE_CLIENT.removeChannel(canalRemovidas);
-        canalRemovidas = null;
     }
 }
 
@@ -61,27 +52,6 @@ function conectarRealtime() {
                 if (id && callbackAtividadeRemovida) {
 
                     callbackAtividadeRemovida(id);
-                }
-            }
-        )
-        .subscribe();
-
-    canalRemovidas = SUPABASE_CLIENT
-        .channel("realtime-atividades-removidas")
-        .on(
-            "postgres_changes",
-            {
-                event: "INSERT",
-                schema: "public",
-                table: "atividades_removidas"
-            },
-            function (payload) {
-
-                const novo = payload.new;
-
-                if (novo && novo.eixo === materia && callbackRemovida) {
-
-                    callbackRemovida(novo.titulo);
                 }
             }
         )
