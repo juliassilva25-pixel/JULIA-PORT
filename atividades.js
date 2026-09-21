@@ -2,35 +2,7 @@ console.log("ATIVIDADES.JS FOI CARREGADO!");
 
 const MATERIA = document.body.dataset.materia || "";
 
-const CHAVE_REMOVIDAS = "atividades_removidas";
-
 let removidasOnline = [];
-
-function obterRemovidasLocais() {
-
-    try {
-
-        return JSON.parse(localStorage.getItem(CHAVE_REMOVIDAS)) || [];
-
-    } catch (e) {
-
-        return [];
-    }
-}
-
-const removidasLocais = obterRemovidasLocais();
-
-function salvarRemovidasLocais() {
-
-    localStorage.setItem(CHAVE_REMOVIDAS, JSON.stringify(removidasLocais));
-}
-
-function jaFoiRemovida(titulo) {
-
-    if (removidasLocais.indexOf(titulo) !== -1) return true;
-
-    return removidasOnline.indexOf(titulo) !== -1;
-}
 
 async function carregarRemovidasOnline() {
 
@@ -54,25 +26,34 @@ async function carregarRemovidasOnline() {
     }
 }
 
-async function sincronizarRemocoesPendentes() {
+function jaFoiRemovida(titulo) {
 
-    if (!supabaseConfigurado() || !MATERIA) return;
+    return removidasOnline.indexOf(titulo) !== -1;
+}
 
-    for (const titulo of removidasLocais) {
+function registrarRemovidaOnline(titulo) {
 
-        if (removidasOnline.indexOf(titulo) !== -1) continue;
+    if (removidasOnline.indexOf(titulo) === -1) {
 
-        try {
-
-            await inserirRemovida(MATERIA, titulo);
-
-        } catch (erro) {
-
-            console.error("ERRO AO SINCRONIZAR REMOÇÃO:", erro);
-        }
+        removidasOnline.push(titulo);
     }
+}
 
-    await carregarRemovidasOnline();
+function ocultarCardPorTitulo(titulo) {
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+
+        if (card.dataset.id) return;
+
+        const nome = card.querySelector("h2");
+
+        if (nome && nome.textContent === titulo) {
+
+            card.remove();
+        }
+    });
 }
 
 function ocultarCardsRemovidos() {
@@ -131,26 +112,21 @@ function removerCard(card) {
 
         const nome = titulo ? titulo.textContent : "";
 
-        if (nome) {
+        if (!nome) return;
 
-            if (removidasLocais.indexOf(nome) === -1) {
+        inserirRemovida(MATERIA, nome)
 
-                removidasLocais.push(nome);
+            .then(function () {
 
-                salvarRemovidasLocais();
-            }
-        }
+                registrarRemovidaOnline(nome);
 
-        card.remove();
+                card.remove();
+            })
 
-        if (nome && supabaseConfigurado()) {
+            .catch(function (erro) {
 
-            inserirRemovida(MATERIA, nome)
-
-                .catch(function (erro) {
-                    console.error("ERRO AO SINCRONIZAR REMOÇÃO:", erro);
-                });
-        }
+                console.error("ERRO AO REMOVER ATIVIDADE:", erro);
+            });
     }
 }
 
@@ -185,12 +161,35 @@ async function inicializarRemocoes() {
 
     await carregarRemovidasOnline();
 
-    await sincronizarRemocoesPendentes();
-
     prepararCardsComRemover();
 }
 
 document.addEventListener("DOMContentLoaded", inicializarRemocoes);
+
+if (typeof conectarRealtime === "function") {
+
+    conectarRealtime();
+}
+
+if (typeof definirCallbacks === "function") {
+
+    definirCallbacks(
+
+        function (titulo) {
+
+            registrarRemovidaOnline(titulo);
+
+            ocultarCardPorTitulo(titulo);
+        },
+
+        function (id) {
+
+            const card = document.querySelector('.card[data-id="' + id + '"]');
+
+            if (card) card.remove();
+        }
+    );
+}
 
 function formatarData(data) {
 
@@ -367,7 +366,6 @@ if (MATERIA) {
         carregarRemovidasOnline().then(function () {
 
             ocultarCardsRemovidos();
-            sincronizarRemocoesPendentes();
         });
     });
 }

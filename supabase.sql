@@ -95,6 +95,38 @@ END $$;
 ALTER TABLE public.atividades ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.atividades_removidas ENABLE ROW LEVEL SECURITY;
 
+-- HABILITA TEMPO REAL (websocket) PARA AS DUAS TABELAS
+-- Usa DO + IF NOT EXISTS porque o comando de publicação
+-- não aceita "IF EXISTS". Seguro de rodar de novo.
+DO $$
+BEGIN
+    -- Garante que a publicação de tempo real existe
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime'
+    ) THEN
+        CREATE PUBLICATION supabase_realtime;
+    END IF;
+
+    -- Adiciona as tabelas somente se ainda não estiverem na publicação
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_publication_tables
+        WHERE pubname = 'supabase_realtime'
+          AND schemaname = 'public'
+          AND tablename = 'atividades'
+    ) THEN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.atividades;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_publication_tables
+        WHERE pubname = 'supabase_realtime'
+          AND schemaname = 'public'
+          AND tablename = 'atividades_removidas'
+    ) THEN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.atividades_removidas;
+    END IF;
+END $$;
+
 -- MOSTRA O QUE JÁ TEMOS (pode rodar sem problema)
 SELECT * FROM public.atividades;
 SELECT * FROM public.atividades_removidas;
