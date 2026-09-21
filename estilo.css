@@ -283,12 +283,7 @@ main {
 
     cursor: pointer;
 
-    opacity: 0;
-
-    transform: scale(.85);
-
     transition:
-        opacity .25s ease,
         transform .25s ease,
         background .25s ease;
 
@@ -296,16 +291,10 @@ main {
 }
 
 
-.card:hover .btn-remover,
-.card .btn-remover:focus-visible {
-    opacity: 1;
-
-    transform: scale(1);
-}
-
-
 .btn-remover:hover {
     background: #3a0003;
+
+    transform: scale(1.1);
 }
 
 
