@@ -24,6 +24,11 @@ NÃO é preciso criar bucket no Storage. Siga os passos abaixo UMA vez.
 
 (Não precisa mexer em "Storage" — o código já salva as imagens na tabela.)
 
+IMPORTANTE (destaque em tempo real): o arquivo supabase.sql também cria a
+coluna "destaque" na tabela de atividades. Se você já tinha rodado a versão
+antiga, abra o SQL Editor do Supabase, cole o supabase.sql atualizado e dê
+"Run" de novo: ele adiciona a coluna sem apagar nada.
+
 
 3) COLOCAR AS CHAVES NO SITE
 ----------------------------

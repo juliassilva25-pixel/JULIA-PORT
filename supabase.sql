@@ -21,8 +21,12 @@ CREATE TABLE IF NOT EXISTS public.atividades (
     data DATE NOT NULL,
     nome TEXT NOT NULL,
     imagem TEXT NOT NULL,
+    destaque BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Adiciona a coluna de destaque em tabelas já existentes
+ALTER TABLE public.atividades ADD COLUMN IF NOT EXISTS destaque BOOLEAN NOT NULL DEFAULT false;
 
 -- CRIANDO AS POLÍTICAS DE ACESSO (só se ainda não existirem)
 DO $$

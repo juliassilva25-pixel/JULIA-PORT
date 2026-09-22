@@ -141,6 +141,38 @@ async function cadastrarAtividadeComImagem(dados, arquivo) {
     await inserirAtividade(dados);
 }
 
+async function atualizarDestaque(id, destaque) {
+
+    if (!supabaseConfigurado()) {
+
+        throw new Error("Supabase não configurado.");
+    }
+
+    const url = supabaseBase() +
+        "/rest/v1/atividades?id=eq." + encodeURIComponent(id);
+
+    const resposta = await fetch(url, {
+
+        method: "PATCH",
+
+        headers: Object.assign(supabaseHeaders(), {
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+        }),
+
+        body: JSON.stringify({ destaque: Boolean(destaque) })
+    });
+
+    if (!resposta.ok) {
+
+        let detalhe = "";
+
+        try { detalhe = await resposta.text(); } catch (e) { }
+
+        throw new Error("Erro ao atualizar destaque (" + resposta.status + "): " + detalhe);
+    }
+}
+
 async function deletarAtividade(id) {
 
     if (!supabaseConfigurado()) {

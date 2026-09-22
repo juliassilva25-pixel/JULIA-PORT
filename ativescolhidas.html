@@ -3,26 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eixos</title>
-    <link rel="stylesheet" href="ativ-escolhidas.css">
+    <title>Atividades Escolhidas</title>
+    <link rel="stylesheet" href="ativ-escolhidas.css?v=3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-    <section class="port">
+    <a href="./indexx.html" class="voltar">← Voltar ao início</a>
 
-        <div class="eixo1">
-            <h2>EIXO 1</h2>
-            <p>Linguagens</p>
+    <!-- TELA 1: ESCOLHA DA DISCIPLINA -->
+    <section id="tela-disciplinas" class="tela tela-disciplinas">
+        <p class="mini-titulo">PORTFÓLIO • ATIVIDADES ESCOLHIDAS</p>
+        <h1 class="titulo-principal">Escolha uma <span>disciplina</span></h1>
+        <p class="descricao-central">
+            Selecione uma das 5 áreas para abrir o carrossel de atividades
+            organizadas por eixo.
+        </p>
+
+        <div id="gradeDisciplinas" class="grade-disciplinas">
+        </div>
+    </section>
+
+    <!-- TELA 2: CARROSSEL POR EIXO -->
+    <section id="tela-carrossel" class="tela tela-carrossel" hidden>
+
+        <div class="carrossel-topo">
+            <button id="btnTrocarDisciplina" class="btn-trocar">‹ Trocar disciplina</button>
+            <p id="carrosselMateria" class="mini-titulo"></p>
         </div>
 
-        <div class="linha"></div>
+        <h1 id="carrosselTitulo" class="titulo-carrossel">EIXO <span>1</span></h1>
 
-        <div class="eixo2">
-            <h2>EIXO 2</h2>
-            <p>Linguagens</p>
+        <div class="carrossel">
+
+            <button id="setaEsq" class="seta" aria-label="Eixo anterior">‹</button>
+
+            <div id="trilhoCarrossel" class="trilho">
+            </div>
+
+            <button id="setaDir" class="seta" aria-label="Próximo eixo">›</button>
+
         </div>
+
+        <div id="indicadorEixo" class="indicador"></div>
 
     </section>
+
+    <script src="supabase-config.js"></script>
+    <script src="supabase.js?v=16"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="realtime.js?v=16"></script>
+    <script src="ativescolhidas.js?v=4"></script>
 
 </body>
 </html>
