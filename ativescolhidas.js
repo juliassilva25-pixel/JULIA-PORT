@@ -268,20 +268,23 @@ async function carregarAtividadesDoEixo(slide, materia, numeroEixo) {
 function renderizarSlide(slide, materia, numeroEixo, atividades) {
 
     const destaque = slide.querySelector(".destaque");
+    const trocar = slide.querySelector(".trocar-box");
     const opcoes = slide.querySelector(".opcoes");
+    const opcoesLista = slide.querySelector(".opcoes-lista");
 
     const escolhida = atividades.find(function (item) {
         return item.destaque === true;
     });
 
     destaque.innerHTML = "";
+    opcoesLista.innerHTML = "";
 
     if (!atividades.length) {
 
         const vazio = document.createElement("div");
         vazio.className = "destaque-vazio";
         vazio.innerHTML = '<i class="fa-solid fa-star"></i>' +
-            '<p>Nenhuma atividade neste eixo ainda.<br>Cadastre a primeira abaixo.</p>';
+            '<p>Nenhuma atividade neste eixo ainda.<br>Abra "Trocar atividade em destaque" e cadastre a primeira.</p>';
         destaque.appendChild(vazio);
 
         opcoes.hidden = true;
@@ -290,28 +293,30 @@ function renderizarSlide(slide, materia, numeroEixo, atividades) {
 
     opcoes.hidden = false;
 
+    atividades.forEach(function (item) {
+
+        const selecionada = escolhida &&
+            String(item.id) === String(escolhida.id);
+
+        opcoesLista.appendChild(criarOpcao(item, slide, selecionada));
+    });
+
     if (escolhida) {
 
         destaque.appendChild(criarCardDestaque(escolhida, slide));
+
+        trocar.open = false;
 
     } else {
 
         const vazio = document.createElement("div");
         vazio.className = "destaque-vazio";
         vazio.innerHTML = '<i class="fa-solid fa-star"></i>' +
-            '<p>Escolha uma atividade abaixo para deixá-la em destaque.</p>';
+            '<p>Nenhuma atividade em destaque.<br>Abra "Trocar atividade em destaque" para escolher uma.</p>';
         destaque.appendChild(vazio);
+
+        trocar.open = true;
     }
-
-    opcoes.innerHTML = "";
-
-    atividades.forEach(function (item) {
-
-        const selecionada = escolhida &&
-            String(item.id) === String(escolhida.id);
-
-        opcoes.appendChild(criarOpcao(item, slide, selecionada));
-    });
 }
 
 function selecionarDestaque(slide, id) {
@@ -377,6 +382,7 @@ function montarSlide(numeroEixo) {
 
     const cabecalho = document.createElement("div");
     cabecalho.className = "slide-cabecalho";
+    cabecalho.hidden = true;
 
     const mini = document.createElement("p");
     mini.className = "mini-titulo";
@@ -393,27 +399,28 @@ function montarSlide(numeroEixo) {
     destaque.className = "destaque";
     slide.appendChild(destaque);
 
+    const trocar = document.createElement("details");
+    trocar.className = "trocar-box";
+
+    const summary = document.createElement("summary");
+    summary.textContent = "⚙ Trocar atividade em destaque";
+    trocar.appendChild(summary);
+
     const opcoes = document.createElement("div");
     opcoes.className = "opcoes";
-
-    const opcoesTitulo = document.createElement("p");
-    opcoesTitulo.className = "opcoes-titulo";
-    opcoesTitulo.textContent = "Escolher atividade em destaque";
-
-    opcoes.appendChild(opcoesTitulo);
 
     const opcoesLista = document.createElement("div");
     opcoesLista.className = "opcoes-lista";
     opcoes.appendChild(opcoesLista);
 
-    slide.appendChild(opcoes);
+    trocar.appendChild(opcoes);
 
     const detalhes = document.createElement("details");
     detalhes.className = "cadastro-box";
 
-    const summary = document.createElement("summary");
-    summary.textContent = "Cadastrar nova atividade";
-    detalhes.appendChild(summary);
+    const cadastroSummary = document.createElement("summary");
+    cadastroSummary.textContent = "Cadastrar nova atividade";
+    detalhes.appendChild(cadastroSummary);
 
     const form = document.createElement("form");
     form.className = "form-atividade-inline";
@@ -469,7 +476,9 @@ function montarSlide(numeroEixo) {
     form.appendChild(msg);
 
     detalhes.appendChild(form);
-    slide.appendChild(detalhes);
+    trocar.appendChild(detalhes);
+
+    slide.appendChild(trocar);
 
     vincularFormulario(form, msg, numeroEixo, slide);
 

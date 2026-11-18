@@ -219,3 +219,97 @@ blockquote{
         padding:14px;
     }
 }
+/* CARD DO CURRÍCULO */
+
+.card-curriculo {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.preview-curriculo {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #eee4d1;
+}
+
+.preview-curriculo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.overlay-curriculo {
+    position: absolute;
+    inset: 0;
+    background: rgba(75, 0, 0, 0.65);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.overlay-curriculo i {
+    font-size: 35px;
+}
+
+.card-curriculo:hover .overlay-curriculo {
+    opacity: 1;
+}
+
+/* IMAGEM AMPLIADA */
+
+.modal-curriculo {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(25, 15, 15, 0.92);
+
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.modal-curriculo:target {
+    display: flex;
+}
+
+.modal-curriculo img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+.fechar-curriculo {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+
+    color: white;
+    font-size: 35px;
+    text-decoration: none;
+}
+
+@media(max-width: 600px) {
+    .preview-curriculo {
+        height: 250px;
+    }
+
+    .modal-curriculo img {
+        max-width: 100%;
+        max-height: 85vh;
+    }
+}

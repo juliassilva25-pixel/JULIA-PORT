@@ -95,10 +95,20 @@ app.post("/login", function (req, res) {
     console.log("=================================");
     console.log("📥 LOGIN RECEBIDO PELO SERVIDOR");
     console.log("=================================");
+    let usuario = null
+    let senha = null
+    try {
+        usuario = req.body.usuario;
+        senha = req.body.senha;
+    } catch{
+         return res.status(400).json({
 
+            sucesso: false,
 
-    const usuario = req.body.usuario;
-    const senha = req.body.senha;
+            mensagem: "Preencha usuário e senha."
+
+        });
+    }
 
 
     console.log("Usuário recebido:", usuario);
